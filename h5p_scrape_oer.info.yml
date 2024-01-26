@@ -1,0 +1,8 @@
+name: H5P Scrape OERCommons
+description: Module to scrape resources from the OERCommons website.
+package: H5P
+type: module
+version: 1.0
+core_version_requirement: ^8 || ^9 || ^10
+dependencies:
+  - h5p:h5p
