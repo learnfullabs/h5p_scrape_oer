@@ -1,0 +1,7 @@
+h5p_scrape_oer.scrape_oer_results_form:
+  path: '/admin/h5p_studio/search-oercommons'
+  defaults:
+    _form: '\Drupal\h5p_scrape_oer\Form\ScrapeOERSearchResults'
+    _title: 'Search at OER Commons'
+  requirements:
+    _permission: 'access administration pages'
