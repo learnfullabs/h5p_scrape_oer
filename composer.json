@@ -1,8 +1,8 @@
 {
-    "name": "learnfullabs/h5p_scrape_oer",
-    "type": "drupal-custom-module",
-    "description": "Module to scrape resources from the OERCommons website.",
-    "homepage": "https://github.com/learnfullabs/h5p_scrape_oer",
-    "license": "GPL-3.0+"
-  }
+  "name": "learnfullabs/h5p_scrape_oer",
+  "type": "drupal-custom-module",
+  "description": "Module to scrape resources from the OERCommons website.",
+  "homepage": "https://github.com/learnfullabs/h5p_scrape_oer",
+  "license": "GPL-3.0+"
+}
   
