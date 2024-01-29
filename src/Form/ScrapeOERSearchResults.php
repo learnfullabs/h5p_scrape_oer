@@ -32,7 +32,7 @@ class ScrapeOERSearchResults extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['search_query'] = [
       '#type' => 'textfield',
-      '#title' => t('What are you looking for?'),
+      '#title' => $this->t('What are you looking for?'),
       '#required' => TRUE,
     ];
 
@@ -52,11 +52,8 @@ class ScrapeOERSearchResults extends FormBase {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
 
-    if(strlen($form_state->getValue('student_rollno')) < 8) {
-      $form_state->setErrorByName('student_rollno', $this->t('Please enter a valid Enrollment Number'));
-    }
-    if(strlen($form_state->getValue('student_phone')) < 10) {
-      $form_state->setErrorByName('student_phone', $this->t('Please enter a valid Contact Number'));
+    if(strlen($form_state->getValue('search_query')) < 1) {
+      $form_state->setErrorByName('search_query', $this->t('Please enter a valid Search Query'));
     }
   }
 
@@ -64,9 +61,10 @@ class ScrapeOERSearchResults extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    \Drupal::messenger()->addMessage(t("Student Registration Done!! Registered Values are:"));
-	foreach ($form_state->getValues() as $key => $value) {
-	  \Drupal::messenger()->addMessage($key . ': ' . $value);
+    \Drupal::messenger()->addMessage(t("Search Query is:"));
+    
+	  foreach ($form_state->getValues() as $key => $value) {
+	    \Drupal::messenger()->addMessage($key . ': ' . $value);
     }
 
     /* $migrations = ['pc_commerce_attached_documents_es'];
