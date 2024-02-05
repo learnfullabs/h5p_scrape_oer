@@ -4,6 +4,8 @@
  * @file
  * Enables the site to scrape search results from OER Commons site 
  * and imports the results into "Resource" nodes.
+ * 
+ * This module also provides helper functions and plugins for other migrations
  */
 
  use Drupal\migrate\Plugin\MigrateSourceInterface;
@@ -15,5 +17,26 @@
  * Implements hook_migrate_prepare_row().
  */
 function h5p_scrape_oer_migrate_prepare_row(Row $row, MigrateSourceInterface $source, MigrationInterface $migration) {
- 
+  /* Perform some data processing on the data coming from the user CSV file */
+  if ($migration->id() == "h5p_migrate_wordpress_users") {
+    $user_role = $row->getSourceProperty('your_role');
+    $drupal_role_name = "";
+
+    switch ($user_role) {
+      case 'Adult Learner':
+        $drupal_role_name = 'adult_learner';
+        break;
+      case 'Parent/Family member/Guardian      ':
+        $drupal_role_name = 'parent_family_member_guardian';
+        break;
+      case 'Administrator':
+        $drupal_role_name = 'administrator';
+        break;
+      case 'Teacher':
+        $drupal_role_name = 'teacher';
+        break;
+    }
+
+    $row->setSourceProperty('your_role', $drupal_role_name);
+  }
 }
