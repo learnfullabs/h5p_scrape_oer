@@ -18,7 +18,6 @@
  */
 function h5p_scrape_oer_migrate_prepare_row(Row $row, MigrateSourceInterface $source, MigrationInterface $migration) {
   /* Perform some data processing on the data coming from the user CSV file */
-  file_put_contents("/tmp/tota", $migration->id());
   if ($migration->id() == "h5p_migrate_wordpress_users") {
     $user_role = $row->getSourceProperty('your_role');
     $drupal_role_name = "";
