@@ -19,51 +19,9 @@
 function h5p_scrape_oer_migrate_prepare_row(Row $row, MigrateSourceInterface $source, MigrationInterface $migration) {
   /* Perform some data processing on the data coming from the user CSV file */
   if ($migration->id() == "h5p_migrate_wordpress_users") {
-    $user_role = $row->getSourceProperty('your_role');
-    $drupal_role_name = "";
+  }
 
-    switch ($user_role) {
-      case 'Adult Learner':
-        $drupal_role_name = 'adult_learner';
-        break;
-      case 'Parent/Family member/Guardian      ':
-        $drupal_role_name = 'parent_family_member_guardian';
-        break;
-      case 'Administrator':
-        $drupal_role_name = 'administrator';
-        break;
-      case 'Teacher':
-        $drupal_role_name = 'teacher';
-        break;
-      case 'Teacher Educator':
-        $drupal_role_name = 'teacher_educator';
-        break;
-      case 'Academic':
-        $drupal_role_name = 'academic';
-        break;
-      case 'Teacher Candidate':
-        $drupal_role_name = 'teacher_candidate';
-        break;
-      case 'Student/Learner':
-        $drupal_role_name = 'student_learner';
-        break;
-      case 'Student':
-        $drupal_role_name = 'student';
-        break;
-      case 'Other':
-        $drupal_role_name = 'other';
-        break;
-      case 'Curriculum leader':
-        $drupal_role_name = 'curriculum_leader';
-        break;
-      case 'Parent/Family member/Guardian':
-        $drupal_role_name = 'parent_family_member_guardian';
-        break;
-      default:
-        $drupal_role_name = 'authenticated';
-        break;
-    }
-
-    $row->setSourceProperty('your_role', $drupal_role_name);
+  /* Perform some data processing on the data coming from the Resources CSV file */
+  if ($migration->id() == "h5p_migrate_wordpress_resources") {
   }
 }
