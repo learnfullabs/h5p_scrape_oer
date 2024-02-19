@@ -5,6 +5,7 @@ namespace Drupal\h5p_scrape_oer\Plugin\migrate\process;
 use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\Row;
+use Drupal\h5p_scrape_oer\StringTermParser;
 
 /**
  * Provides a 'ProcessSubjectField' migrate process plugin.
@@ -24,15 +25,13 @@ class ProcessSubjectField extends ProcessPluginBase {
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
   	$subjectItem = $row->getSourceProperty("field_subject");
+    $termParser = new StringTermParser("subjects");
     
     /* TODO: Here we process the field_subject field and look for parent-child terms */
-    /* if (isset($subjectItem) && !empty($subjectItem)) {
-      return $subjectItem;
+    if (isset($subjectItem) && !empty($subjectItem)) {
+      return $termParser->returnTermIds($subjectItem);
     } else {
-      return "Support Resources";
-    } */
-
-    // return [26, 20];
-    return $subjectItem;
+      return [26, 20];
+    }
   }
 }
