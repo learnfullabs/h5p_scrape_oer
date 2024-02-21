@@ -54,34 +54,13 @@ class StringTermParser {
       }
     }
 
-    // for each exploded substring, attempt to explode it again by using ->
-    foreach ($initialTerms as $singleTerm) {
-      $nextTerms = explode("->", $singleTerm);
-    }
-
-    // if no results, it means that these are either parent terms or child terms
-    /*if (!$nextTerms) {
-      // loop through these substrings and find the term ids, add these ids to the array
-      foreach ($initialTerms as $id => $value) {
-        $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
-
-        $terms = $storage->loadByProperties([
-          'name' => $value,
-          'vid' => $this->vocabularyName,
-        ]);
-
-        if ($terms) {
-          $term = reset($terms);
-
-          $termIds[] = $term->id();
-        }
+    // 
+    if (strpos($this->termString, "->") > 0) {
+      // for each exploded substring, attempt to explode it again by using ->
+      foreach ($initialTerms as $singleTerm) {
+        $nextTerms = explode("->", $singleTerm);
       }
-    } else {
-      // if there are results when exploding ->, these will be arrays with two or three strings,
-      // the 1st string is the parent, the second is the child term, and the third
-      // array will be the child of the previous (child term)
-      // loop through these substrings and find out the term id
-      // add the ids in the array, in the same order
+
       foreach ($nextTerms as $id => $value) {
         $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
 
@@ -96,7 +75,7 @@ class StringTermParser {
           $termIds[] = $term->id();
         }
       }
-    } */
+    }
 
     $this->termIds = $termIds;
   }
