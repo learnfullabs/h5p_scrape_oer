@@ -54,25 +54,25 @@ class StringTermParser {
       }
     }
 
-    // 
+    // Check if there are parent -> child items
     if (strpos($this->termString, "->") > 0) {
       // for each exploded substring, attempt to explode it again by using ->
       foreach ($initialTerms as $singleTerm) {
         $nextTerms = explode("->", $singleTerm);
-      }
 
-      foreach ($nextTerms as $id => $value) {
-        $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
-
-        $terms = $storage->loadByProperties([
-          'name' => $value,
-          'vid' => $this->vocabularyName,
-        ]);
-
-        if ($terms) {
-          $term = reset($terms);
-
-          $termIds[] = $term->id();
+        foreach ($nextTerms as $id => $value) {
+          $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  
+          $terms = $storage->loadByProperties([
+            'name' => $value,
+            'vid' => $this->vocabularyName,
+          ]);
+  
+          if ($terms) {
+            $term = reset($terms);
+  
+            $termIds[] = $term->id();
+          }
         }
       }
     }
