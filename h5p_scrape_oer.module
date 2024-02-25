@@ -24,4 +24,12 @@ function h5p_scrape_oer_migrate_prepare_row(Row $row, MigrateSourceInterface $so
   /* Perform some data processing on the data coming from the Resources CSV file */
   if ($migration->id() == "h5p_migrate_wordpress_resources") {
   }
+
+  /* Perform some data processing on the data coming from the Resources CSV file */
+  if ($migration->id() == "h5p_migrate_wordpress_resources_docclient") {
+    /* Stop the migration if field 'id' is empty in the XLSX file */
+    if (!$row->getSourceProperty('id')) {
+    return FALSE;
+   }
+  }
 }
