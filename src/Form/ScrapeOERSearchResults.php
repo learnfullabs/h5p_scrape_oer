@@ -66,27 +66,5 @@ class ScrapeOERSearchResults extends FormBase {
 	  foreach ($form_state->getValues() as $key => $value) {
 	    \Drupal::messenger()->addMessage($key . ': ' . $value);
     }
-
-    /* $migrations = ['pc_commerce_attached_documents_es'];
-
-    $process = new Process('drush migrate-reset-status pc_commerce_attached_documents_es');
-    $process->run();
-
-    // executes after the command finishes
-    if (!$process->isSuccessful()) {
-        throw new ProcessFailedException($process);
-    }
-
-    foreach ($migrations as $mid) {
-      $migration = \Drupal::service('plugin.manager.migration')->createInstance($mid);
-      $executable = new MigrateExecutable($migration, new MigrateMessage());
-
-      if ($executable->import()) {
-          drupal_set_message('Migración:' . $mid . ' ejecutada');
-      }
-      else {
-        drupal_set_message(t('Migration not executed, the type of the product is not defined'));
-      }
-    } */
   }
 }

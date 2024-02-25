@@ -19,14 +19,14 @@ class StringTermParser {
   /**
    * Array of term names and its relations
    *
-   * @var array
+   * @var string
    */
   protected $termString;
 
   /**
    * Vocabulary name
    *
-   * @var array
+   * @var string
    */
   protected $vocabularyName;
 

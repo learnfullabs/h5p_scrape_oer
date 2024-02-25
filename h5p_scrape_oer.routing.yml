@@ -1,7 +1,14 @@
 h5p_scrape_oer.scrape_oer_results_form:
-  path: '/admin/h5p_studio/search-oercommons'
+  path: '/admin/structure/migrate/search-oercommons'
   defaults:
     _form: '\Drupal\h5p_scrape_oer\Form\ScrapeOERSearchResults'
     _title: 'Search at OER Commons'
+  requirements:
+    _permission: 'access administration pages'
+h5p_scrape_oer.parse_resource_spreadsheet:
+  path: '/admin/structure/migrate/parse-resource-spreadsheet'
+  defaults:
+    _form: '\Drupal\h5p_scrape_oer\Form\ParseResourceSpreadsheet'
+    _title: 'Parse Resource SpreadSheet'
   requirements:
     _permission: 'access administration pages'
