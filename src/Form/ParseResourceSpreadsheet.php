@@ -19,7 +19,7 @@ use Drupal\migrate_plus\Entity\MigrationGroup;
 use Drupal\migrate_plus\Plugin\MigrationConfigEntityPluginManager;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
-
+use Drush\Drush;
 
 /**
  * Class ParseResourceSpreadsheet
@@ -126,17 +126,19 @@ class ParseResourceSpreadsheet extends FormBase {
 
     $migrations = ['h5p_migrate_wordpress_resources_docclient'];
 
-    $process = new Process(['drush', 'migrate-reset-status', 'h5p_migrate_wordpress_resources_docclient']);
-    $process->run();
-
-    // executes after the command finishes
-    if (!$process->isSuccessful()) {
-        throw new ProcessFailedException($process);
-    }
-
     foreach ($migrations as $mid) {
       $migration = \Drupal::service('plugin.manager.migration')->createInstance($mid);
       $executable = new MigrateExecutable($migration, new MigrateMessage());
+
+      $status = $migration->getStatus();
+
+      if ($status == MigrationInterface::STATUS_IDLE) {
+        $this->messenger()->addMessage('Migration:' . $mid . ' is already idle');
+      }
+      else {
+        $migration->setStatus(MigrationInterface::STATUS_IDLE);
+        $this->messenger()->addMessage('Set migration status of ' . $mid . ' to idle');
+      }
 
       if ($executable->import()) {
         $this->messenger()->addMessage('Migration:' . $mid . ' executed');
