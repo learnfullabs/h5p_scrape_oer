@@ -159,13 +159,14 @@ class ParseResourceSpreadsheet extends FormBase {
     $row_id = 2;
     $row = [];
 
-    foreach($rowIterator as $row) {
+    foreach ($rowIterator as $row) {
       $ind = $row->getRowIndex();
   
       if ($ind < $row_id) {
         continue;
       }
 
+      // Apply label changes to the header row
       if ($ind == 2) {
         $cellIterator = $row->getCellIterator();
   
@@ -218,6 +219,19 @@ class ParseResourceSpreadsheet extends FormBase {
               # code...
               break;
           }
+        }
+      } else {
+        // Apply misc changes to data
+        $cellIterator = $row->getCellIterator();
+
+        foreach ($cellIterator as $cell) {
+          if ($cell->getColumn() == "E") {
+            if ($cell->getValue()) {
+              $value = $cell->getValue();
+              $date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($value);
+              $cell->setValue($date);
+            }
+          }          
         }
       }
     }
