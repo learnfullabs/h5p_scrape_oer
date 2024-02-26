@@ -13,6 +13,7 @@ use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\Event\MigrateEvents;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\IReadFilter;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Drupal\migrate_plus\Entity\Migration;
 use Drupal\migrate_plus\Entity\MigrationGroup;
 use Drupal\migrate_plus\Plugin\MigrationConfigEntityPluginManager;
@@ -91,8 +92,11 @@ class ParseResourceSpreadsheet extends FormBase {
       $file = $file = $_FILES['files']['tmp_name']['uploadedFile'];
 
       if ($file) {
-        //$novelties = loadFileAttached($file);
-
+        if (!$this->purgeFileAttached($file)) {
+          $form_state->setErrorByName('uploadedFile', $this->t('Error Cleaning up the Resources XLSX File.'));
+        } else {
+          $this->messenger()->addMessage('Uploaded file ' . $file . ' has been cleaned up for migration');
+        }
       }
       else {
         $form_state->setErrorByName('uploadedFile', $this->t('Error loading the Resources XLSX File.'));
@@ -146,17 +150,82 @@ class ParseResourceSpreadsheet extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function loadFileAttached(File $file) {
-    $type = IOFactory::identify($file);
-    $reader = IOFactory::createReader($type);
-    $reader->setReadDataOnly(FALSE);
-    $reader->setLoadSheetsOnly('datos');
-    $workbook = $reader->load($file);
+  public function purgeFileAttached($file) {
+    $workbook = IOFactory::load($file);
+
     $sheetData = $workbook->getActiveSheet();
+    $sheetData->setTitle("Resources");
     $rowIterator = $sheetData->getRowIterator();
-    $row_id = 3;
+    $row_id = 2;
     $row = [];
+
+    foreach($rowIterator as $row) {
+      $ind = $row->getRowIndex();
   
+      if ($ind < $row_id) {
+        continue;
+      }
+
+      if ($ind == 2) {
+        $cellIterator = $row->getCellIterator();
+  
+        // Change header labels to map the YML fields
+        foreach ($cellIterator as $cell) {
+          $data[$ind][$cell->getColumn()] = $cell->getCalculatedValue();
+          
+          switch ($cell->getColumn()) {
+            case 'B':
+              $cell->setValue('id');
+              break;
+
+            case 'E':
+              $cell->setValue('created_date');
+              break;
+
+            case 'F':
+              $cell->setValue('permalink');
+              break;
+
+            case 'H':
+              $cell->setValue('field_thumbnail_image_url');
+              break;
+
+            case 'I':
+              $cell->setValue('field_thumbnail_image_title');
+              break;
+
+            case 'J':
+              $cell->setValue('field_thumbnail_image_alt_text_caption');
+              break;
+
+            case 'K':
+              $cell->setValue('field_thumbnail_image_alt_text_description');
+              break;
+
+            case 'L':
+              $cell->setValue('field_thumbnail_image_alt_text');
+              break;
+
+            case 'M':
+              $cell->setValue('field_thumbnail_image_featured');
+              break;
+
+            case 'Y':
+              $cell->setValue('field_media_file_upload');
+              break;  
+            
+            default:
+              # code...
+              break;
+          }
+        }
+      }
+    }
+
+    $writer = new Xlsx($workbook);
+    $writer->save($file);
+
+    return TRUE;
   }
 
 }
