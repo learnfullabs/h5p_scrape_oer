@@ -1,0 +1,6 @@
+# Menu items definition
+h5p_scrape_oer.parse_resource_spreadsheet:
+  title: Migrate Resource SpreadSheet
+  description: 'Parse SpreadSheet and Migrate resources provided by the client.'
+  route_name: h5p_scrape_oer.parse_resource_spreadsheet
+  parent: system.admin_config_services
