@@ -7,13 +7,13 @@ use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\Row;
 
 /**
- * Provides an 'AssignResourceIfEmpty' migrate process plugin.
+ * Provides an 'AssignPrepTimeIfEmpty' migrate process plugin.
  *
  * @MigrateProcessPlugin(
- *  id = "assign_resource_if_empty"
+ *  id = "assign_prep_time_if_empty"
  * )
  */
-class AssignResourceIfEmpty extends ProcessPluginBase {
+class AssignPrepTimeIfEmpty extends ProcessPluginBase {
 
   function __construct($configuration, $plugin_id, $plugin_definition) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -23,12 +23,12 @@ class AssignResourceIfEmpty extends ProcessPluginBase {
    * {@inheritdoc}
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
-  	$resourceItem = $row->getSourceProperty("field_resource_type");
+  	$prepTime = $row->getSourceProperty("field_prep_time");
     
-    if (isset($resourceItem) && !empty($resourceItem)) {
-      return $resourceItem;
+    if (isset($prepTime) && !empty($prepTime)) {
+      return $prepTime;
     } else {
-      return "Other";
+      return "Unknown";
     }
   }
 }

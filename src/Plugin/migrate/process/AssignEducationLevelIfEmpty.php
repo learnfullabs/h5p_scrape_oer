@@ -7,7 +7,7 @@ use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\Row;
 
 /**
- * Provides a 'AssignEducationLevelIfEmpty' migrate process plugin.
+ * Provides an 'AssignEducationLevelIfEmpty' migrate process plugin.
  *
  * @MigrateProcessPlugin(
  *  id = "assign_education_level_if_empty"
