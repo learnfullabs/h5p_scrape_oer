@@ -233,7 +233,14 @@ class ParseResourceSpreadsheet extends FormBase {
               $date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($value);
               $cell->setValue($date);
             }
-          }          
+          } else if ($cell->getColumn() == "AC") {
+            if ($cell->getValue()) {
+              $value = $cell->getValue();
+              file_put_contents("/tmp/keys", $value);
+              $keywords = str_replace(",", "|", $value);
+              $cell->setValue($keywords);
+            }
+          }
         }
       }
     }

@@ -27,7 +27,6 @@ class ProcessSubjectField extends ProcessPluginBase {
   	$subjectItem = $row->getSourceProperty("field_subject");
     $termParser = new StringTermParser("subjects");
     
-    /* TODO: Here we process the field_subject field and look for parent-child terms */
     if (isset($subjectItem) && !empty($subjectItem)) {
       return $termParser->returnTermIds($subjectItem);
     } else {
