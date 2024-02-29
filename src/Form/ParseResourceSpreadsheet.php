@@ -214,7 +214,7 @@ class ParseResourceSpreadsheet extends FormBase {
               break;
 
             case 'Y':
-              $cell->setValue('field_media_file_upload');
+              $cell->setValue('field_resource_media');
               break;  
             
             default:
