@@ -126,7 +126,7 @@ class ParseResourceSpreadsheet extends FormBase {
 
     $migrations = ['h5p_migrate_wordpress_resources_docclient'];
 
-    foreach ($migrations as $mid) {
+    /* foreach ($migrations as $mid) {
       $migration = \Drupal::service('plugin.manager.migration')->createInstance($mid);
       $executable = new MigrateExecutable($migration, new MigrateMessage());
 
@@ -146,7 +146,7 @@ class ParseResourceSpreadsheet extends FormBase {
       else {
         $this->messenger()->addError('Migration not executed, the type of the product is not defined');
       }
-    }
+    } */
   }
 
   /**
@@ -157,6 +157,8 @@ class ParseResourceSpreadsheet extends FormBase {
 
     $sheetData = $workbook->getActiveSheet();
     $sheetData->setTitle("Resources");
+    /* Format Date column to String */
+    $sheetData->getStyle('F')->getNumberFormat()->setFormatCode('@');
     $rowIterator = $sheetData->getRowIterator();
     $row_id = 2;
     $row = [];
@@ -177,46 +179,27 @@ class ParseResourceSpreadsheet extends FormBase {
           $data[$ind][$cell->getColumn()] = $cell->getCalculatedValue();
           
           switch ($cell->getColumn()) {
-            case 'B':
+            case 'A':
               $cell->setValue('id');
               break;
-
-            case 'E':
+            case 'D':
+              $cell->setValue('username');
+              break;
+            case 'F':
               $cell->setValue('created_date');
               break;
-
-            case 'F':
+            case 'G':
               $cell->setValue('permalink');
               break;
-
-            case 'H':
+            case 'J':
               $cell->setValue('field_thumbnail_image_url');
               break;
-
-            case 'I':
+            case 'K':
               $cell->setValue('field_thumbnail_image_title');
               break;
-
-            case 'J':
+            case 'L':
               $cell->setValue('field_thumbnail_image_alt_text_caption');
               break;
-
-            case 'K':
-              $cell->setValue('field_thumbnail_image_alt_text_description');
-              break;
-
-            case 'L':
-              $cell->setValue('field_thumbnail_image_alt_text');
-              break;
-
-            case 'M':
-              $cell->setValue('field_thumbnail_image_featured');
-              break;
-
-            case 'Y':
-              $cell->setValue('field_resource_media');
-              break;  
-            
             default:
               # code...
               break;
@@ -227,18 +210,41 @@ class ParseResourceSpreadsheet extends FormBase {
         $cellIterator = $row->getCellIterator();
 
         foreach ($cellIterator as $cell) {
-          if ($cell->getColumn() == "E") {
+          /* Parse creation date field */
+          if ($cell->getColumn() == "F") {
             if ($cell->getValue()) {
               $value = $cell->getValue();
               $date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($value);
               $cell->setValue($date);
             }
-          } else if ($cell->getColumn() == "AC") {
+
+          /* Parse tags column */
+          } else if ($cell->getColumn() == "AA") {
             if ($cell->getValue()) {
               $value = $cell->getValue();
-              file_put_contents("/tmp/keys", $value);
-              $keywords = str_replace(",", "|", $value);
+              $keywords = str_replace(", ", "|", $value);
+              $keywords = str_replace(",", "|", $keywords);
+              $keywords = str_replace(" ,", "|", $keywords);
+
+              $keywords = str_replace("; ", "|", $keywords);
+              $keywords = str_replace(";", "|", $keywords);
+              $keywords = str_replace(" ;", "|", $keywords);
+
+              //TO FIX
+              if (str_contains($keywords, "Maxime Laporte") || str_contains($keywords, "Consolidation des apprentissages")){
+                $keywords = str_replace("\n", "|", $keywords);
+                $keywords = str_replace("| |", "|", $keywords);
+              }
+
               $cell->setValue($keywords);
+            }
+          
+          /* Trucate publisher cell if longer */
+          } else if ($cell->getColumn() == "Z") {
+            if ($cell->getValue()) {
+              $value = $cell->getValue();
+              $publisher = substr($value, 0, 254);
+              $cell->setValue($publisher);
             }
           }
         }

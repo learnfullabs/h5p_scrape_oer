@@ -35,6 +35,7 @@ class ProcessTagsField extends ProcessPluginBase {
       if (!empty($value)) {
         $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['vid' => 'tags', 'name' => $value]);
 
+        /* If term exists, just assign the tid to the array */
         if ($terms) {
           $term = reset($terms);
   
