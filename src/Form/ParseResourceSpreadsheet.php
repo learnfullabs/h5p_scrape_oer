@@ -126,7 +126,7 @@ class ParseResourceSpreadsheet extends FormBase {
 
     $migrations = ['h5p_migrate_wordpress_resources_docclient'];
 
-    /* foreach ($migrations as $mid) {
+    foreach ($migrations as $mid) {
       $migration = \Drupal::service('plugin.manager.migration')->createInstance($mid);
       $executable = new MigrateExecutable($migration, new MigrateMessage());
 
@@ -146,7 +146,7 @@ class ParseResourceSpreadsheet extends FormBase {
       else {
         $this->messenger()->addError('Migration not executed, the type of the product is not defined');
       }
-    } */
+    }
   }
 
   /**
