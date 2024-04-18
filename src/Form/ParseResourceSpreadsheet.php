@@ -126,7 +126,7 @@ class ParseResourceSpreadsheet extends FormBase {
 
     $migrations = ['h5p_migrate_wordpress_resources_docclient'];
 
-    foreach ($migrations as $mid) {
+    /* foreach ($migrations as $mid) {
       $migration = \Drupal::service('plugin.manager.migration')->createInstance($mid);
       $executable = new MigrateExecutable($migration, new MigrateMessage());
 
@@ -146,7 +146,7 @@ class ParseResourceSpreadsheet extends FormBase {
       else {
         $this->messenger()->addError('Migration not executed, the type of the product is not defined');
       }
-    }
+    } */
   }
 
   /**
@@ -160,7 +160,7 @@ class ParseResourceSpreadsheet extends FormBase {
     /* Format Date column to String */
     $sheetData->getStyle('F')->getNumberFormat()->setFormatCode('@');
     $rowIterator = $sheetData->getRowIterator();
-    $row_id = 2;
+    $row_id = 1;
     $row = [];
 
     foreach ($rowIterator as $row) {
@@ -171,7 +171,7 @@ class ParseResourceSpreadsheet extends FormBase {
       }
 
       // Apply label changes to the header row
-      if ($ind == 2) {
+      if ($ind == 1) {
         $cellIterator = $row->getCellIterator();
   
         // Change header labels to map the YML fields
