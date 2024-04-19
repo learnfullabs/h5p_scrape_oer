@@ -222,7 +222,7 @@ class ParseResourceSpreadsheet extends FormBase {
           } else if ($cell->getColumn() == "AA") {
             if ($cell->getValue()) {
               $value = $cell->getValue();
-              $keywords = str_replace(",,", ",", $keywords);
+              $keywords = str_replace(",,", ",", $value);
               $keywords = str_replace(", ,", ",", $keywords);
               $keywords = str_replace(", ", "|", $value);
               $keywords = str_replace(",", "|", $keywords);
@@ -253,8 +253,8 @@ class ParseResourceSpreadsheet extends FormBase {
           } else if ($cell->getColumn() == "Y") {
             if ($cell->getValue()) {
               $value = $cell->getValue();
-              $authors = str_replace(", ", ",", $authors);
-              $authors = str_replace(" ,", ",", $authors);
+              $authors = str_replace(", ", ",", $value);
+              $authors = str_replace(" ,", ",", $value);
 
               $cell->setValue($authors);
             }
