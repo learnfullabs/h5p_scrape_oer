@@ -25,6 +25,10 @@ class ProcessSourceField extends ProcessPluginBase {
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
   	$sourceItem = trim($row->getSourceProperty("field_source"));
+
+    if (empty($sourceItem)) {
+      return "link";
+    }
     
     if (isset($sourceItem) && !empty($sourceItem)) {
       if (($sourceItem == "File Upload") || ($sourceItem == "File upload")) {

@@ -25,6 +25,11 @@ class ProcessSubjectField extends ProcessPluginBase {
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
   	$subjectItem = $row->getSourceProperty("field_subject");
+
+    if (empty($subjectItem)) {
+      return $subjectItem;
+    }
+
     $termParser = new StringTermParser("subjects");
     
     if (isset($subjectItem) && !empty($subjectItem)) {

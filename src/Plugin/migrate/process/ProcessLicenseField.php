@@ -25,6 +25,11 @@ class ProcessLicenseField extends ProcessPluginBase {
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
   	$licenseItem = $row->getSourceProperty("field_license");
+
+    if (empty($licenseItem)) {
+      return [26, 20];
+    }
+
     $termParser = new StringTermParser("license");
     
     if (isset($licenseItem) && !empty($licenseItem)) {

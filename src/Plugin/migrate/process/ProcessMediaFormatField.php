@@ -26,6 +26,12 @@ class ProcessMediaFormatField extends ProcessPluginBase {
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
   	$mediaFormatItem = $row->getSourceProperty("field_media_format");
+
+    if (empty($mediaFormatItem)) {
+      // Return "Other" by default
+      return [178];
+    }
+
     $mediaList = explode("|", $mediaFormatItem);
     $termIds = [];
 

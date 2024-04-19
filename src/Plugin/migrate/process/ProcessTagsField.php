@@ -26,6 +26,11 @@ class ProcessTagsField extends ProcessPluginBase {
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
   	$tagsItem = $row->getSourceProperty("field_tags");
+
+    if (empty($tagsItem)) {
+      return [];
+    }
+
     $tagsList = explode("|", $tagsItem);
     $termIds = [];
 
