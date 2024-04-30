@@ -45,6 +45,27 @@ class ProcessSubjectApiField extends ProcessPluginBase {
         return [42, 48];
       } else if ($subjectItem == "Humanities") {
         return [5];
+      } else if ($subjectItem == "Law") {
+        return [55, 56];
+      } else if ($subjectItem == "Mathematics") {
+        return [41];
+      } else if ($subjectItem == "Medicine, Nursing & Nutrition") {
+        return [53];
+      } else if ($subjectItem == "Philosophy & Religion") {
+        return [5, 12];
+      } else if ($subjectItem == "Physics") {
+        return [42, 47];
+      } else if ($subjectItem == "Social Sciences") {
+        return [55];
+      } else if ($subjectItem == "Statistics") {
+        return [41];
+      } else if ($subjectItem == "Uncategorized") {
+        /* In PROD, tid is 2264, in DEV/Local the tid has a different value */
+        return [2264];
+      } else if ($subjectItem == "Workforce") {
+        return [54];
+      } else if ($subjectItem == "K-12") {
+        return [41];
       } else {
         return [];
       }
