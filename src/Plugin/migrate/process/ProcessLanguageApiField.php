@@ -35,7 +35,23 @@ class ProcessLanguageApiField extends ProcessPluginBase {
         return 191;
       } else if ($languageItem == "en") {
         return 188;
-      } 
+      } else if ($languageItem == "es") {
+        return 196;
+      } else if ($languageItem == "tk") {
+        return 197;
+      } else if ($languageItem == "pt") {
+        return 195;
+      } else if ($languageItem == "it") {
+        return 193;
+      } else if ($languageItem == "de") {
+        return 192;
+      } else if ($languageItem == "zh") {
+        return 190;
+      } else if ($languageItem == "ar") {
+        return 189;
+      } else {
+        return 198;
+      }
     } else {
       return 191;
     }
