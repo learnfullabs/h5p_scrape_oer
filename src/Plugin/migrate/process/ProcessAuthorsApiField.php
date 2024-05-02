@@ -26,6 +26,7 @@ class ProcessAuthorsApiField extends ProcessPluginBase {
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
   	$authorsItem = trim($row->getSourceProperty("shared_by"));
+    $additionalAuthors = str_replace('&quot;', '"', trim($row->getSourceProperty("authors")));
 
     if (empty($authorsItem)) {
       return [];
@@ -45,6 +46,30 @@ class ProcessAuthorsApiField extends ProcessPluginBase {
         // Create the terms
         $term = Term::create(['name' => $authorsItem, 'vid' => "authors"])->save(); 
         $termIds[] = $term;
+      }
+    }
+
+    file_put_contents("/tmp/authors", $additionalAuthors);
+
+    /* Process authors API field */
+    $authorsObject = json_decode($additionalAuthors);
+
+    foreach ($authorsObject as $id => $object) {
+      if (!empty($object)) {
+        $authorName = $object->name;
+
+        $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['vid' => 'authors', 'name' => $authorName]);
+
+        /* If term exists, just assign the tid to the array */
+        if ($terms) {
+          $term = reset($terms);
+  
+          $termIds[] = $term->id();
+        } else {
+          // Create the terms
+          $term = Term::create(['name' => $authorName, 'vid' => "authors"])->save(); 
+          $termIds[] = $term;
+        }
       }
     }
 
