@@ -49,8 +49,6 @@ class ProcessAuthorsApiField extends ProcessPluginBase {
       }
     }
 
-    file_put_contents("/tmp/authors", $additionalAuthors);
-
     /* Process authors API field */
     $authorsObject = json_decode($additionalAuthors);
 
