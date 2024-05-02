@@ -29,7 +29,20 @@ function h5p_scrape_oer_migrate_prepare_row(Row $row, MigrateSourceInterface $so
   if ($migration->id() == "h5p_migrate_wordpress_resources_docclient") {
     /* Stop the migration if field 'id' is empty in the XLSX file */
     if (!$row->getSourceProperty('id')) {
-    return FALSE;
-   }
+      return FALSE;
+    }
+  }
+
+  /* Perform some data processing on the data coming from the Resources CSV API Endpoint */
+  if ($migration->id() == "h5p_migrate_wordpress_resources_api") {
+  	$subjectItem = trim($row->getSourceProperty("subject"));
+
+    if ($subjectItem == "K-12") {
+      /* Check if subject is K-12, then, we need to set field_education_level to */
+      /* Preschool|Lower Primary->Kindergarten|Lower Primary->Grade 1|Lower Primary->Grade 2|Lower Primary->Grade 3|Upper Primary->Grade 4|Upper Primary->Grade 5|Upper Primary->Grade 6|Middle School->Grade 7|Middle School->Grade 8|Middle School->Grade 9|High School->Grade 10|High School->Grade 11|High School->Grade 12 */
+      $row->setSourceProperty('field_education_level', [229, 230, 231, 232, 233, 234, 235, 237, 238, 239, 241, 242, 243, 244, 245, 246]);
+    } else {
+      $row->setSourceProperty('field_education_level', []);
+    }
   }
 }
