@@ -43,6 +43,7 @@ class StringTermParser {
     // start with an empty array
     // parse the string, explode it with |
     $initialTerms = explode("|", $this->termString);
+    $termIds = [];
 
     foreach ($initialTerms as $id => $value) {
       $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['vid' => $this->vocabularyName, 'name' => $value]);
