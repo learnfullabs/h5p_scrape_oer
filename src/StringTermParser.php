@@ -39,6 +39,13 @@ class StringTermParser {
     $this->vocabularyName = $vocabulary_name;
   }
 
+  /**
+   * Process the Term String from the XLS file (which has a special format)
+   * and returns an array of term ids.
+   *
+   * @return array
+   *   Array of term ids.
+   */
   private function processTermString() {
     // start with an empty array
     // parse the string, explode it with |
@@ -81,6 +88,12 @@ class StringTermParser {
     $this->termIds = $termIds;
   }
 
+  /**
+   * Wrapper method for processTermString() 
+   *
+   * @return array
+   *   Array of term ids.
+   */
   public function returnTermIds($term_string = "") {
     $this->termString = $term_string;
     $this->processTermString();
