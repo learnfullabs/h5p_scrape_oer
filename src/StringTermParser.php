@@ -10,7 +10,7 @@ namespace Drupal\h5p_scrape_oer;
 class StringTermParser {
 
   /**
-   * Array of the Term IDs corresponding the term nams.
+   * Array of the Term IDs corresponding the term names.
    *
    * @var array
    */
