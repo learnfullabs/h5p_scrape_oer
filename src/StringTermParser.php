@@ -5,7 +5,7 @@ namespace Drupal\h5p_scrape_oer;
 /**
  * String Term Parser.
  *
- * Provides a class that parses taxonomy strings from the Excel spreadsheets
+ * Defines a helper class for migration tasks.
  */
 class StringTermParser {
 
@@ -31,7 +31,10 @@ class StringTermParser {
   protected $vocabularyName;
 
   /**
-   * Constructor for the StringTermParser objects.
+   * Constructs a new StringTermParser object.
+   *
+   * @param string $vocabulary_name
+   *   Vocabulary name where the terms will be created.
    */
   public function __construct($vocabulary_name) {
     $this->termIds = [];
