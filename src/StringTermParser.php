@@ -31,7 +31,7 @@ class StringTermParser {
   protected $vocabularyName;
 
   /**
-   * Constructor for StringTermParser objects.
+   * Constructor for the StringTermParser objects.
    */
   public function __construct($vocabulary_name) {
     $this->termIds = [];
@@ -89,7 +89,11 @@ class StringTermParser {
   }
 
   /**
-   * Wrapper method for processTermString() 
+   * Wrapper method for processTermString(). This is the method that shall
+   * be called from other objects that use this class.
+   * 
+  * @param string|null $term_string
+   *   String of Terms (separated with | and ->)
    *
    * @return array
    *   Array of term ids.
